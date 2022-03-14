@@ -11,13 +11,13 @@ const router = express.Router();
 import Cors from 'cors';
 const PORT = process.env.PORT || 8001;    
 
-const app = express();
+const app = express();  
 app.use(router);
-
+  
 app.use(express.json());
 app.use(Cors())
+  
  
-
 const uri = "mongodb+srv://cruddemo:cruddemo@cluster0.o3bnl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 //database connection
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -25,14 +25,14 @@ const connection = mongoose.connection;
 connection.once('open', () => {
     console.log(" database connected...");
 }).on('error', function (err) {
-      console.log(err);
-    });
-
+      console.log(err);   
+    }); 
+ 
 
 
 
 //body parser
-app.use(bodyparser.urlencoded({
+app.use(bodyparser.urlencoded({ 
     extended:true
 }));
 app.use(bodyparser.json());

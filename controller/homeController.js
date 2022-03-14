@@ -7,29 +7,22 @@ function homeController() {
             console.log("hiiii")
         },
         async getuser(req, res) {
-            
-            var perPage 
-            var page 
+            console.log(req.query.page)  
 
-  
-             customermodel.find().sort({ "createdAt": 1 }).skip((perPage * page) - perPage).limit(perPage)
-            .exec(function(err, user) {
-                customermodel.countDocuments().exec(function(err, count) {
-                    if (!err){
-                        res.status(200).send({ 
-                        data:user,
-                        current: page,
-                        pages: Math.ceil(count / perPage),
-                        
-                    })
-         
-                    }
-                    
-                })
-            })
-
-
-
+            const PAGE_SIZE = 2;
+            const page = parseInt(req.query.page || "1");
+            const total = await customermodel.countDocuments({});
+            const data = await customermodel.find({})
+              .limit(PAGE_SIZE)
+              .skip((PAGE_SIZE * page) - PAGE_SIZE);
+              console.log(data)
+            res.json({
+              totalPages: Math.ceil(total / PAGE_SIZE),
+              total,
+              data, 
+          
+            });
+          
         }
     }
 }
